@@ -1,0 +1,4 @@
+interface:
+  display_name: "TruthLint"
+  short_description: "Evidence before completion claims"
+  default_prompt: "Use $truthlint to classify this task, apply relevant checks, fix gaps, and require direct evidence before claiming completion."

@@ -1,0 +1,6 @@
+/references/user-profile.md
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.venv/
+.eval/

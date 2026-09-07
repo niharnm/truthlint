@@ -1,0 +1,52 @@
+name: Bug report
+description: Report a reproducible gate, classifier, or portability defect.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: checkboxes
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed credentials, private profiles, and private repository content.
+          required: true
+  - type: input
+    attributes:
+      label: TruthLint version
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Host and Python version
+      placeholder: Claude Code and Python 3.12
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Area
+      options:
+        - Classification false positive
+        - Classification false negative
+        - Ledger validation
+        - Host compatibility
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Minimal reproduction
+      description: Include exact commands and a small public or synthetic fixture.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual behavior
+      description: Include the exact error or output after removing private data.
+    validations:
+      required: true

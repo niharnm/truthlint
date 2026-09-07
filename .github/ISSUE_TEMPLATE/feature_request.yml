@@ -1,0 +1,30 @@
+name: Check or feature proposal
+description: Propose an evidence rule, product classifier change, or host adapter.
+title: "[Proposal]: "
+labels: [proposal]
+body:
+  - type: textarea
+    attributes:
+      label: Observed problem
+      description: Describe a real completion failure or irrelevant check.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Applicable scope
+      description: Name the task mode, archetype, capability, and product surface.
+      placeholder: implementation, game, game capability, /play
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed rule
+      description: State the evidence that should pass, fail, block, or make the check inapplicable.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Example
+      description: Link a public repository or provide a small synthetic fixture without private data.
+    validations:
+      required: true
