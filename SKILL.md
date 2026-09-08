@@ -11,7 +11,7 @@ The deterministic evidence gate requires Python 3.10 or newer and local filesyst
 
 ## Companion quality audit
 
-TruthLint owns evidence, applicability, readiness, and completion claims. Keep qualitative checks for generic presentation, formulaic copy, placeholder content, generated-code tells, and other low-effort project output in project-slop-check.
+TruthLint owns evidence, applicability, readiness, and completion claims. Use project-slop-check for broad discovery and qualitative diagnosis of generic presentation, formulaic copy, placeholder content, generated-code tells, and other low-effort project output. TruthLint may retain related checks when its selected profile requires them; it records direct evidence for those requirements rather than issuing a broad slop verdict.
 
 When those concerns are in scope and project-slop-check is available, recommend running $project-slop-check as a companion. If both skills run, carry confirmed, in-scope findings into TruthLint as task-specific ledger checks for remediation and direct verification. Report each verdict separately because a pass from either skill does not establish a pass from the other.
 
