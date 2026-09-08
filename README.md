@@ -13,6 +13,8 @@ It combines agent instructions with a deterministic, fail-closed Python ledger. 
 
 TruthLint validates completion evidence and process. It does not prove that evidence is honest, that behavior is semantically correct, or that a product meets every legal or security obligation.
 
+For broad discovery and qualitative diagnosis of generic presentation, formulaic copy, placeholder content, generated-code tells, and other low-effort project output, pair it with [Project Slop Check](https://github.com/niharnm/project-slop-check). TruthLint can retain related checks selected by its active profile; it records direct evidence and verifies accepted fixes while each skill keeps its own verdict.
+
 ![TruthLint flow](assets/truthlint-flow.svg)
 
 ## Install

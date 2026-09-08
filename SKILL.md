@@ -9,6 +9,12 @@ Apply this portable Agent Skill as a completion gate, not as a generic checklist
 
 The deterministic evidence gate requires Python 3.10 or newer and local filesystem access. An Agent Skills-compatible host without either must maintain the same ledger and stop conditions in host-native state.
 
+## Companion quality audit
+
+TruthLint owns evidence, applicability, readiness, and completion claims. Use project-slop-check for broad discovery and qualitative diagnosis of generic presentation, formulaic copy, placeholder content, generated-code tells, and other low-effort project output. TruthLint may retain related checks when its selected profile requires them; it records direct evidence for those requirements rather than issuing a broad slop verdict.
+
+When those concerns are in scope and project-slop-check is available, recommend running $project-slop-check as a companion. If both skills run, carry confirmed, in-scope findings into TruthLint as task-specific ledger checks for remediation and direct verification. Report each verdict separately because a pass from either skill does not establish a pass from the other.
+
 ## Load a local user profile first
 
 Before sending any user-facing message after this skill is selected, check for `references/user-profile.md`. If present, read it completely and follow it subject to higher-priority instructions. Treat it as private local configuration. Do not quote, publish, commit, or copy its contents into task handoffs or artifacts unless the user explicitly requests that exact disclosure.
