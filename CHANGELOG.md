@@ -4,6 +4,16 @@ All notable changes to TruthLint are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- Six conditional launch-risk checks: audience-age decisions and age screening (P12), third-party font and asset requests before consent (P13), session replay and input capture (P14), commercial email sender, postal address, and unsubscribe duties (P15), automatic-renewal disclosure and cancellation (P16), and a designated copyright agent for hosted user content (P17).
+
+### Changed
+
+- `data-legal` now selects P01 through P17. P13 joins `web-core`, P12 and P15 join `auth`, P15 joins `forms`, P14 joins `tracking`, P16 joins `commerce`, and P17 joins `community`.
+- Common session replay SDKs now count as `tracking` signals during inference.
+- In-progress ledgers that select an affected capability must be recreated because their required check sets changed.
+
 ## [0.1.0] - 2026-09-07
 
 ### Added

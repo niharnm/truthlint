@@ -60,23 +60,23 @@ A public shell around a game is classified separately. Apply public-discovery, c
 
 The classifier can suggest these groups, but repository and runtime evidence decide:
 
-- `web-core`: in-scope accessibility, responsive behavior, truthful content, rendered-source correctness, error-free interactions, data minimization, and direct evidence.
+- `web-core`: in-scope accessibility, responsive behavior, truthful content, rendered-source correctness, error-free interactions, data minimization, third-party asset requests, and direct evidence.
 - `public-discovery`: public metadata, headings, canonical URLs, link integrity, crawler files, structured data, social cards, favicon, domain, production output, and search-console ownership when launch operations are in scope.
 - `marketing`: specific hero copy, visible action, restrained motion, non-generic visual choices, real proof, and conversion behavior.
 - `local-presence`: verified location, service area, directions, phone, hours, email, and local structured data.
 - `service-content`: service pages, approved FAQs, about story, case studies, blog content, and response commitments when factual source material exists.
 - `media-proof`: real photos, verified reviews, approved comparisons, and truthful case-study assets.
-- `forms`: keyboard use, labels, validation, success, failure, consent, repeat submission, and thank-you behavior when it adds value.
-- `auth`: password controls, session behavior, permissions, private data, account errors, and destructive-action confirmation.
-- `commerce`: pricing and purchase clarity, payment failures, receipts, cancellation, refund terms, and transaction consent.
-- `tracking`: actual network and storage inventory, consent, campaign attribution, third-party embeds, and disclosures.
-- `data-legal`: privacy, terms, refunds, cookies, consent, data collection, third-party processing, and verified policy revision dates when those duties apply.
+- `forms`: keyboard use, labels, validation, success, failure, consent, repeat submission, thank-you behavior when it adds value, and commercial email sent to collected addresses.
+- `auth`: password controls, session behavior, permissions, private data, account errors, audience-age decisions, commercial email to account holders, and destructive-action confirmation.
+- `commerce`: pricing and purchase clarity, payment failures, receipts, cancellation, refund terms, automatic-renewal disclosure, and transaction consent.
+- `tracking`: actual network and storage inventory, consent, session replay and input capture, campaign attribution, third-party embeds, and disclosures.
+- `data-legal`: privacy, terms, refunds, cookies, consent, data collection, third-party processing, children's data, third-party assets, session replay, commercial email, automatic renewal, copyright takedown, and verified policy revision dates when those duties apply.
 - `content`: hierarchy, internal links, dates, search, print, copy actions, and long-page aids when useful.
 - `documentation`: reference navigation, search, code-copy behavior, print output, last-updated facts, and version correctness.
 - `social`: sharing metadata and working approved social profiles.
 - `search`: a working search surface for a corpus large enough to justify it.
 - `private-app`: authorization boundaries, state handling, data loss, validation, and safe committing actions.
-- `community`: reporting, moderation, uploads, profile privacy, abuse states, and account controls.
+- `community`: reporting, moderation, uploads, copyright takedown, profile privacy, abuse states, and account controls.
 - `game`: core loop, supported inputs, focus, pause and resume, save state, asset loading, audio controls, viewport, motion or flashing safety, and runtime faults.
 - `embedded`: focus containment, resize behavior, loading and failure states, message origins, and host integration.
 
@@ -91,6 +91,10 @@ Add task-specific ledger checks for important behavior that no built-in group co
 - Require cookie consent only when nonessential storage or tracking is actually used under the applicable rules. A banner without that use is not a substitute for inspection.
 - Require refund or cancellation terms only for relevant transactions. Never draft business terms from guesses.
 - Require terms of service when accounts, purchases, uploads, user content, licensing, or material usage rules create a real need.
+- Require age screening or parental consent only when the approved audience decision calls for it. Never guess whether a product is directed to children.
+- Apply commercial-email duties to promotional messages, not to transactional-only mail such as receipts and password resets, after inspecting the actual message inventory.
+- Require renewal disclosures only for charges that renew or convert automatically, and a designated copyright agent only when the product hosts user-provided content.
+- A build-time font loader that serves files from the product's own origin makes no third-party font request. Judge third-party font requests from network evidence, not import names.
 - An inline success state can be correct. Do not demand a separate thank-you page when it adds no user value.
 - Require breadcrumbs only when route hierarchy benefits orientation.
 - Require site search only when the corpus justifies it.
