@@ -9,7 +9,7 @@
 
 TruthLint is a portable Agent Skill that requires coding agents to classify the product, select only the checks that apply, fix in-scope gaps, and attach direct evidence before reporting completion.
 
-It combines agent instructions with a deterministic, fail-closed Python ledger. The catalog includes 160 checks, 20 capability groups, and 15 product archetypes. A game gets game checks. A local-business site gets discovery, contact, consent, and trust checks. A paid game with a store gets both, scoped to the routes that own them.
+It combines agent instructions with a deterministic, fail-closed Python ledger. The catalog includes 166 checks, 20 capability groups, and 15 product archetypes. A game gets game checks. A local-business site gets discovery, contact, consent, and trust checks. A paid game with a store gets both, scoped to the routes that own them.
 
 TruthLint validates completion evidence and process. It does not prove that evidence is honest, that behavior is semantically correct, or that a product meets every legal or security obligation.
 

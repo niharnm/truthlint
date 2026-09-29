@@ -764,7 +764,7 @@ class TaskGateTests(unittest.TestCase):
         expected = {
             *{f"W{index:02d}" for index in range(1, 23)},
             *{f"A{index:02d}" for index in range(1, 24)},
-            *{f"P{index:02d}" for index in range(1, 12)},
+            *{f"P{index:02d}" for index in range(1, 18)},
             *{f"B{index:02d}" for index in range(1, 17)},
             *{f"D{index:02d}" for index in range(1, 10)},
         }
@@ -787,7 +787,7 @@ class TaskGateTests(unittest.TestCase):
         self.assertIn("W22", task_gate.CAPABILITY_GROUPS["content"])
         self.assertEqual(
             set(task_gate.CAPABILITY_GROUPS["data-legal"]),
-            {f"P{index:02d}" for index in range(1, 12)},
+            {f"P{index:02d}" for index in range(1, 18)},
         )
         self.assertIn("data-legal", task_gate.CAPABILITY_SIGNALS)
         for check_id in ("D03", "D04", "D08", "D09"):
@@ -807,11 +807,118 @@ class TaskGateTests(unittest.TestCase):
     def test_interactive_and_privacy_checks_require_runtime_capable_evidence(
         self,
     ) -> None:
-        for check_id in ("A04", "P05", "P06", "P07", "P08", "P09", "B16"):
+        for check_id in (
+            "A04",
+            "P05",
+            "P06",
+            "P07",
+            "P08",
+            "P09",
+            "P12",
+            "P13",
+            "P14",
+            "P15",
+            "P16",
+            "P17",
+            "B16",
+        ):
             allowed = task_gate.PASS_KIND_REQUIREMENTS[check_id]
             self.assertTrue(allowed & {"browser", "command", "log", "runtime", "test"})
             self.assertNotIn("file", allowed)
             self.assertNotIn("source", allowed)
+
+    def test_launch_legal_checks_attach_to_owning_capabilities(self) -> None:
+        owners = {
+            "P12": {"auth"},
+            "P13": {"web-core"},
+            "P14": {"tracking"},
+            "P15": {"auth", "forms"},
+            "P16": {"commerce"},
+            "P17": {"community"},
+        }
+        for check_id, expected_owners in owners.items():
+            self.assertEqual(task_gate.CHECKS[check_id]["group"], "privacy-legal")
+            self.assertIn(check_id, task_gate.NA_ALLOWED_IDS)
+            owning_capabilities = {
+                capability
+                for capability, check_ids in task_gate.CAPABILITY_GROUPS.items()
+                if check_id in check_ids and capability != "data-legal"
+            }
+            self.assertEqual(owning_capabilities, expected_owners)
+        ledger = task_gate.build_ledger("review", "game", ["game", "web-core"], None)
+        self.assertIn("P13", ledger["checks"])
+        for check_id in ("P12", "P14", "P15", "P16", "P17"):
+            self.assertNotIn(check_id, ledger["checks"])
+
+    def test_third_party_asset_check_rejects_static_pass_evidence(self) -> None:
+        ledger = task_gate.build_ledger("review", "web-app", ["web-core"], None)
+        self.complete_classification(ledger)
+        record = ledger["checks"]["P13"]
+        record["status"] = "pass"
+        record["evidence"] = self.evidence(
+            "source",
+            "app/layout.tsx",
+            "The layout imports its font through a build-time font loader",
+        )
+        record["updated_at"] = task_gate.utc_now()
+        ledger["updated_at"] = task_gate.utc_now()
+        errors = task_gate.validate_ledger(ledger)
+        self.assertTrue(
+            any("P13: pass evidence kind must be one of" in error for error in errors)
+        )
+
+        record["evidence"] = self.evidence(
+            "browser",
+            "fresh-profile load of /",
+            "Network log shows font files requested only from the first-party origin",
+        )
+        errors = task_gate.validate_ledger(ledger)
+        self.assertFalse(any(error.startswith("P13:") for error in errors))
+
+    def test_session_replay_sdk_activates_tracking_checks(self) -> None:
+        temporary, root = self.make_repo(
+            {
+                "package.json": '{"dependencies":{"next":"16.0.0","react":"20.0.0"}}',
+                "app/providers.tsx": (
+                    "import LogRocket from 'logrocket';\nLogRocket.init('team/app');\n"
+                ),
+            }
+        )
+        self.addCleanup(temporary.cleanup)
+        result = task_gate.infer_repository(root)
+        self.assertIn("tracking", result["selected_capabilities"])
+        ledger = task_gate.build_ledger(
+            "review",
+            result["selected_archetype"],
+            result["selected_capabilities"],
+            result,
+        )
+        self.assertIn("P14", ledger["checks"])
+
+    def test_replay_wording_without_a_recorder_does_not_activate_tracking(
+        self,
+    ) -> None:
+        temporary, root = self.make_repo(
+            {
+                "package.json": '{"dependencies":{"phaser":"4.0.0","vite":"7.0.0"}}',
+                "README.md": "The game has no session replay or Hotjar recording.",
+                "src/scenes/GameOver.ts": (
+                    "export class GameState { sprite = 'player'; label = 'Replay level'; }"
+                ),
+            }
+        )
+        self.addCleanup(temporary.cleanup)
+        result = task_gate.infer_repository(root)
+        self.assertEqual(result["selected_archetype"], "game")
+        self.assertLess(result["capability_scores"]["tracking"], 4)
+        self.assertNotIn("tracking", result["selected_capabilities"])
+        ledger = task_gate.build_ledger(
+            "review",
+            result["selected_archetype"],
+            result["selected_capabilities"],
+            result,
+        )
+        self.assertNotIn("P14", ledger["checks"])
 
     def test_data_legal_signals_activate_the_full_policy_check_set(self) -> None:
         temporary, root = self.make_repo(
@@ -829,7 +936,7 @@ class TaskGateTests(unittest.TestCase):
             inference["selected_capabilities"],
             inference,
         )
-        for index in range(1, 12):
+        for index in range(1, 18):
             self.assertIn(f"P{index:02d}", ledger["checks"])
 
     def test_repeated_fixture_mentions_do_not_create_a_game_false_positive(
